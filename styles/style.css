@@ -8,19 +8,6 @@ html {
   block-size: 100%;
 }
 
-.page {
-  inline-size: 1200px;
-  block-size: 100%;
-  margin: auto;*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  block-size: 100%;
-}
-
 h1,
 h2,
 h3,
@@ -44,8 +31,9 @@ ol {
   display: flex;           /*1.1 Задаём флекс для конейнера .page (тег <body>)*/
   justify-content: center; /*1.2.1 Центрируем блок .content по горизонтали внутри блока .page*/
   align-items: center;     /*1.2.1 Центрируем блок .content по вертикали внутри блока .page*/
-  width: 1200px;           /*Размеры сайта зафиксированы - согласно макету 1200х800*/
-  height: 800px;
+  width: 1200px;           /*Ширина сайта фиксирована - согласно макету 1200х800*/
+  block-size: 100%;        /*Р1_Высоту не фиксируем heigh: 800px, контента может быть > или < (растягиваем на всю высоту экрана)*/
+  margin: auto;
   color: #fff;
   font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 18px;
@@ -70,6 +58,7 @@ ol {
   width: 100%;       /*2.2 Помещаем видео в контейнер так, чтобы оно занимало всю ширину и высоту*/
   height: 100%;
   object-fit: cover; /*2.2 Делаем так, чтобы видео не выходило за пределы контейнера*/
+  object-position: center;
 }
 
 .search-form {
@@ -78,36 +67,8 @@ ol {
 }
 
 .search-form__fieldset {
-  border: none;  /*4.1.2 Сбрасываем border*/
-}
-
-input[type="text"] {
-  border: 1px solid #FFFFFF;   /*4.3.2 Создаём окантовку текстового поля ввода*/
-  border-right: none;            /*4.3.2 Убираем окантовку текстового поля ввода справа*/
-  border-left: none;             /*4.3.2 Убираем окантовку текстового поля ввода слева*/
-  font-size: 18px;
-  color: #fff;                 /*4.3.3 Установливаем цвет шрифта #fff для текста при вводе*/
-  background-color: transparent; /*4.3.5 Установливаем цвет фона согласно макету - прозрачный*/
-  appearance: none;              /*4.3.6 Задаём свойство appearance: none;, чтобы в браузерах были нужные стили*/
-  letter-spacing: -0.8px;        /*сама применила св-во, чтобы уменьшить расстояние м/д буквами*/
-}
-
-input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасываем обводку*/
-  outline: none;
-}
-
-.search-form__label:has(:focus-visible) {  /*4.3.7 Делаем границу у лейбла, который окружает*/
-  outline: 1px solid #FFFFFF;            /*input[type="text"]*/
-  width: 229px;          
-  height: 31px;
-}
-
-/*.search-form__fieldset-title { --  Город нужно поднять 
-  align-items: start;   
-}*/
-
-.search-form__textfield::placeholder {
-  color: rgb(255 255 255 / 0.7); /*4.3.4 Устанавливаем цвет шрифта rgb(255 255 255 / 0.7) для подсказки*/
+  box-sizing: border-box;
+  border: none;         /*4.1.2 Сбрасываем border*/
 }
 
 .search-form__fieldset-title {
@@ -117,21 +78,50 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 }
 
 .search-form__label {
+  display: flex;        /*4.2.1	Расположим содержимое .search-form__label в строку*/
+  align-items: center;  /*4.2.2	Центрируем содержимое внутри .search-form__label по вертикальной оси*/
+  width: fit-content;   /*4.2.3	Позволяем обёртке принять размер содержимого, не растягивая её на всю доступную ширину*/
+  gap: 5px;             /*4.2.4 Добавим отступ между чекбоксом и его подписью*/
+  width: 225px;       /*Р1 Ширина перенесена в общий селектор из .search-form__label:has(:focus-visible)*/   
+  /*height: 31px;     P1 Не стоит задавать высоту тестовому эл-ту. Текст динамичен.Имеют зн-ние только высота строки и отступы*/
   font-size: 18px;    /*3.1 Переопределяем согласно макету*/
   font-weight: 400;   /*3.1 Переопределяем согласно макету*/
   padding: 1px 0;     /*3.1 Задаём внутренние верхний и нижний отступ согласно макету*/
 }
 
+.search-form__label:has(:focus-visible) {  /*4.3.7 Делаем границу у лейбла, который окружает*/
+  outline: 1px solid #FFFFFF;            /*input[type="text"]*/
+}
+
+.search-form__textfield {
+  width: 100%;
+}
+
+input[type="text"] {
+  border: 1px solid #FFFFFF;   /*4.3.2 Создаём окантовку текстового поля ввода*/
+  border-right: none;            /*4.3.2 Убираем окантовку текстового поля ввода справа*/
+  border-left: none;             /*4.3.2 Убираем окантовку текстового поля ввода слева*/
+  font-family: 'Fira Sans Condensed', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #fff;                 /*4.3.3 Установливаем цвет шрифта #fff для текста при вводе*/
+  background-color: transparent; /*4.3.5 Установливаем цвет фона согласно макету - прозрачный*/
+  appearance: none;              /*4.3.6 Задаём свойство appearance: none;, чтобы в браузерах были нужные стили*/
+  /*letter-spacing: -0.8%;      Р1 Удалено. По макету зн-ние 0%, что явл-ется зн-нием по умолчанию (normal)*/
+}
+
+input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасываем обводку*/
+  outline: none;
+}
+
+.search-form__textfield::placeholder {
+  color: rgb(255 255 255 / 0.7); /*4.3.4 Устанавливаем цвет шрифта rgb(255 255 255 / 0.7) для подсказки*/
+}
+
 .search-form__checkbox-list {
   display: flex;   /*4.1.1 Расположим чекбоксы в линию, исп-ем flex*/
   gap: 15px;       /*4.1.1 Расположим чекбоксы в линию, исп-ем gap*/
-}
-
-.search-form__label {
-  display: flex;        /*4.2.1	Расположим содержимое .search-form__label в строку*/
-  align-items: center;  /*4.2.2	Центрируем содержимое внутри .search-form__label по вертикальной оси*/
-  width: fit-content;   /*4.2.3	Позволяем обёртке принять размер содержимого, не растягивая её на всю доступную ширину*/
-  gap: 5px;             /*4.2.4 Добавим отступ между чекбоксом и его подписью*/
+  width: 212px;
 }
 
 .search-form__pseudo-checkbox {
@@ -155,9 +145,15 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
   opacity: 1;    /*4.4.3 Чтобы при выборе чекбокса стилизованный в ::after псевдоэлемент был полностью непрозрачным*/
 }
 
-.search-form__pseudo-checkbox:hover ~ .search-form__label-text,
+ /* Р1 Селектор надо удалить. Чтобы наведение сработало, достаточно селектора .search-formlabel:hover .search-formlabel-text
+
+ .search-form__pseudo-checkbox:hover ~ .search-form__label-text,
 .search-form__checkbox:hover + .search-form__pseudo-checkbox ~ .search-form__label-text { 
-  text-decoration: underline; /*4.4.4 Декорируем текст чекбокса. При наведении — текст подчёркивается*/
+  text-decoration: underline;   4.4.4 Декорируем текст чекбокса. При наведении — текст подчёркивается
+}*/
+
+.search-form_label:hover .search-formlabel-text { 
+  text-decoration: underline;   /*4.4.4 Декорируем текст чекбокса. При наведении — текст подчёркивается*/
 }
 
 .search-form__label:has(.search-form__checkbox:focus-visible) {  /*4.4.5 Когда чекбокс в фокусе — добавляем границу вокруг*/  
@@ -166,7 +162,9 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 
 /*.search-form__checkbox:focus-visible + .search-form__pseudo-checkbox { /4.4.5 Когда чекбокс в фокусе — добавляем границу вокруг/
   outline: 1px solid #FFFFFF;
-  }*/ 
+  }
+*/
+
 .search-form__label-text {
   font-size: 18px;    /* Переопределяем согласно макету*/
   font-weight: 400;   /* Переопределяем согласно макету*/
@@ -175,7 +173,8 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 .button {                        /*5.1 Общий класс_Установливаем границу, цвет, шрифт и прозрачный фон*/
   outline: 1px solid #FFFFFF;
   background-color: transparent; /*5.1 Установливаем цвет фона согласно макету - прозрачный*/
-  font-family: Fira Sans Condensed;
+  height: 34px; 
+  font-family: 'Fira Sans Condensed', sans-serif; /*P1 Имя шрифта > одного слова берется в ''. Добавлен альтернативный шрифт */
   font-size: 18px;
   color: #FFFFFF;
   cursor: pointer;        /*7 Устанавливаем кликабельность*/
@@ -183,13 +182,8 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 
 .search-form__submit-button {
   width: 194px;          /*5.3 Задаём размер*/
-  height: 34px;
+  /*height: 34px;        P1 Является общим св-вом для кнопок - выносим в общий селектор .button*/
   align-self: flex-end;  /*5.3 Задаём положение в конце контейнера по вертикальной оси*/
-}
-
-.more-button {
-  width: 390px;    /*5.4 Задаём размер*/
-  height: 34px;
 }
 
 .button:hover {
@@ -206,8 +200,8 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 
 .button:focus-visible {           /*5.5 Задаём обводку в виде двойной рамки за счёт outline и border*/
   outline: 1px solid #FFFFFF;   /*5.5 Задаём внешнюю линию обводки засчёт outline*/
-  width: 198px;          
-  height: 38px;
+  /*width: 198px;                  
+  height: 38px;                   P1 Лишнее - удаляем. В состоянии :focus-visible должна только появляться рамка.*/
   border: 1px solid #FFFFFF;    /*5.5 Задаём внутреннюю линию обводки засчёт border*/
   outline-offset: 2px;            /*5.5 Задаём зазор между внешней и внутренней линиями (согласно макету 2px)*/
 }
@@ -222,7 +216,7 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 
 .title {
   /*3.2	Оформляем элемент .title и вложенный в него .content__accent*/
-  font-family: Oswald;
+  font-family: 'Oswald', sans-serif;  /*P1 Добавляем альтернатив. шрифт. Oswald в '' для единообразия кода*/
   text-transform: uppercase;
   font-size: 75px;
   line-height: 94%;
@@ -236,11 +230,12 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 .content__list-container {
   display: flex;            /*2.4 Чтобы задать отступ между последней карточкой и кнопкой*/
   flex-direction: column;   /*2.4 Чтобы расположить элементы в столбец*/
-  height: 298px;     /*1.2.5 Устанавливаем жесткую высоту для .content__list-container*/
+  width: 399px;
+  height: 298px;            /*1.2.5 Устанавливаем жесткую высоту для .content__list-container*/
   margin-top: 26px;
-  overflow: scroll;  /*1.2.5 Добавляем скролл при переполнении жесткой высоты*/
-  overflow-x: hidden;/*Прячем нижний (горизонтальный) скролл*/
-  gap: 30px;         /*2.4 Создаём отступ между контейнером .content__list*/
+  overflow: auto;           /*1.2.5 Добавляем скролл при переполнении жесткой высоты*/
+  /*overflow-x: hidden;     Р1 Удаляем...Прячем нижний (горизонтальный) скролл*/
+  gap: 30px;                /*2.4 Создаём отступ между контейнером .content__list*/
   position: relative;       /*8 Позиционирование прелоадеров*/
 }
 
@@ -248,17 +243,19 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
   display: flex;          /*2.3 Чтобы задать отступ между карточками*/
   flex-direction: column; /*2.3 Чтобы расположить карточки в столбец*/
   gap: 30px;              /*2.3 Создаём отступы между элементами .content__list-item*/ 
+  width: 390px;
 }
 
-.content__list-item {   
-  padding: 0 3px 0 3px;  /*6.5 Чтобы обводка не прилипала к границе карточки когда её реализуют :focus-visible*/
+.content__list-item {  
+  padding: 0 3px; /*6.5 Чтобы обводка не прилипала к границе карточки когда её реализуют :focus-visible*/
 }
 
 .content__card-link {
   display: block;        /*6.1 Переводим ссылку из строчного в блочный эл-т, что отображался фоновый цвет*/
   text-decoration: none; /*3.3 Убераем дефолтное подчёркивание*/
   color: #FFFFFF;      /*3.3 Заменяем цвет текста с синего на белый согласно макету*/
-  cursor: pointer;       /*7 Устанавливаем кликабельность*/
+  cursor: pointer;       /*7 Устанавливаем кликабельность*/        
+  height: 105px;
 }
 
 .content__card-link_current {
@@ -270,17 +267,15 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 }
 
 .content__card-link:hover {
-  text-decoration: underline;  /*6.4 Устанавливаем подчёркивание при наведении*/
+  text-decoration: underline;   /*6.4 Устанавливаем подчёркивание при наведении*/
 }
 
 .content__card-link:focus {
-  outline: none;         /*6.5 Сбрасываем стандартную обводку*/
+  outline: none;                /*6.5 Сбрасываем стандартную обводку*/
 }
 
 .content__card-link:focus-visible {   
   outline: 1px solid #FFFFFF;      /*6.5 Задаём обводку за счёт outline*/
-  width: 390px;          
-  height: 105px;
 }
 
 .content__video-card {
@@ -293,31 +288,36 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 }
 
 .content__video-card-title {
-  font-family: Oswald;
+  font-family: 'Oswald', sans-serif;
   font-size: 30px;            /*3.4 Задаем размер шрифта*/
-  line-height: 100%;
+  line-height: 1.0;
   text-transform: uppercase;  /*3.4 Делаем все буквы заглавными*/
-                            /*3.4 Задаём возможность переполнения, заменяя излишний текст на “…”*/
-  white-space: nowrap;      /* запрещает перенос строк */
-  overflow: hidden;         /* скрывает всё, что не влезает */
-  text-overflow: ellipsis;  /* добавляет «…» в конце */
-  max-width: 196px;          /* ограничивает ширину (или задай конкретное значение) */
+                              /*3.4 Задаём возможность переполнения, заменяя излишний текст на “…”*/
+  white-space: nowrap;        /* запрещает перенос строк */
+  overflow: hidden;           /* скрывает всё, что не влезает */
+  text-overflow: ellipsis;    /* добавляет «…» в конце */
+  width: 196px;               /* ограничивает ширину (или задай конкретное значение) */
 }
 
 .content__video-card-description {
-  line-height: 16.2px;          /*Задаём зн-ние значение line-height согласно макету*/
+  line-height: 0.9;             /*Задаём зн-ние значение line-height согласно макету*/
                                 /*3.5 Для учёта возможности переполнения воспользуемся свойством line-clamp*/
   display: -webkit-box;         /* Включает гибкую модель для обрезки по строкам */
-  -webkit-line-clamp: 1;         /* Ограничивает видимый текст 1 строкой */
-  -webkit-box-orient: vertical;  /* Задаёт вертикальное направление обрезки */
-  overflow: hidden;              /* Скрывает всё, что выходит за границы элемента */
+  -webkit-line-clamp: 1;        /* Ограничивает видимый текст 1 строкой */
+  -webkit-box-orient: vertical; /* Задаёт вертикальное направление обрезки */
+  overflow: hidden;             /* Скрывает всё, что выходит за границы элемента */
 }
 
 .content__video-card-thumbnail {
-  width: 194px;         /*2.6 Задаём минимальную ширину для изображения*/
+  min-width: 194px;         /*2.6 Задаём минимальную ширину для изображения*/
   height: 103px;            /*2.6 Задаём высоту для изображения*/
   object-fit: cover;        /*2.6 Задаём, чтобы изображение занимало целиком контейнер, не выходя за пределы*/
   object-position: center;  /*2.6 Центрируем*/
+}
+
+.more-button {
+  width: 390px;     /*5.4 Задаём размер*/
+  /*height: 34px;   P1 Является общим св-вом для кнопок - выносим в общий селектор .button*/
 }
 
 .visually-hidden {
@@ -330,10 +330,6 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
   white-space: nowrap;
 } 
 
-.result {
-
-}
-
 /* Кастомный скроллбар */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
@@ -345,31 +341,6 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #D9D9D9;
-}
-
-  color: #fff;
-  font-family: 'Fira Sans Condensed', sans-serif;
-  font-size: 18px;
-  background-color: #1b1919;
-}
-
-h1,
-h2,
-h3,
-h4,
-p,
-ul,
-ol,
-li,
-blockquote,
-fieldset {
-  margin: 0;
-  padding: 0;
-}
-
-ul,
-ol {
-  list-style: none;
 }
 
 /* Кастомный скроллбар */
