@@ -152,7 +152,7 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
   text-decoration: underline;   4.4.4 Декорируем текст чекбокса. При наведении — текст подчёркивается
 }*/
 
-.search-form_label:hover .search-formlabel-text { 
+.search-form__label:hover .search-form__label-text { 
   text-decoration: underline;   /*4.4.4 Декорируем текст чекбокса. При наведении — текст подчёркивается*/
 }
 
@@ -255,7 +255,6 @@ input[type="text"]:focus {   /*4.3.7 Когда в фокусе - сбрасыв
   text-decoration: none; /*3.3 Убераем дефолтное подчёркивание*/
   color: #FFFFFF;      /*3.3 Заменяем цвет текста с синего на белый согласно макету*/
   cursor: pointer;       /*7 Устанавливаем кликабельность*/        
-  height: 105px;
 }
 
 .content__card-link_current {
